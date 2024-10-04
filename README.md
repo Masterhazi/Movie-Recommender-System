@@ -1,5 +1,8 @@
 # MARS: Your Automated Movie Recommender System 🎬
 
+![image](https://github.com/user-attachments/assets/be9f4e8d-c0a9-41d0-9cf4-bf4a991b4a1f)
+
+
 Welcome to **MARS**, the *Movie Automated Recommender System*, your personalized, AI-powered movie recommendation engine. Imagine having the ability to type in a single movie title, genre, or keyword, and *MARS* will scan the universe of films, offering you the best recommendations based on their synopses!
 
 Whether you're hunting for the perfect sci-fi thriller or looking for an underrated gem, MARS has you covered. In this readme, we'll take you through the journey of how this simple yet powerful app works, broken down step-by-step to give you an in-depth understanding.
