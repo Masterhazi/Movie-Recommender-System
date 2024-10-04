@@ -1,6 +1,150 @@
-# Movie-Recommender-System
-This repo uses LLM technology to recommend movies 
-### Created virtual environment 
-* Used ```python -m venv .venv``` to create the virtual environment
-* Activating the virtual environment
-* Activated using 
+# MARS: Your Automated Movie Recommender System 🎬
+
+Welcome to **MARS**, the *Movie Automated Recommender System*, your personalized, AI-powered movie recommendation engine. Imagine having the ability to type in a single movie title, genre, or keyword, and *MARS* will scan the universe of films, offering you the best recommendations based on their synopses!
+
+Whether you're hunting for the perfect sci-fi thriller or looking for an underrated gem, MARS has you covered. In this readme, we'll take you through the journey of how this simple yet powerful app works, broken down step-by-step to give you an in-depth understanding.
+
+---
+
+## 📜 Table of Contents
+1. [The Story Behind MARS](#1-the-story-behind-mars)
+2. [Tech Stack](#2-tech-stack)
+3. [How it Works](#3-how-it-works)
+   - [Setting Up the Local Environment](#31-setting-up-the-local-environment)
+   - [Designing the Webpage](#32-designing-the-webpage)
+   - [Building the AI Model](#33-building-the-ai-model)
+   - [Making Movie Recommendations](#34-making-movie-recommendations)
+4. [Running the Application](#4-running-the-application)
+5. [Contributing](#5-contributing)
+6. [Future Enhancements](#6-future-enhancements)
+
+---
+
+## 1. The Story Behind MARS 🚀
+
+Imagine you're sitting on your couch, flipping through Netflix, and you just can't decide what to watch. You've seen all the classics, you’re tired of the trending films, and you're craving something different. That's where MARS comes to the rescue! 
+
+Instead of endlessly scrolling through platforms, MARS harnesses the power of Google’s advanced AI and suggests movies based on *synopsis similarity*, using deep learning to find you the perfect movie match. Think of it as a personal movie critic who never runs out of recommendations!
+
+---
+
+## 2. Tech Stack 🛠️
+
+MARS is built with a few essential tools that allow it to work its magic:
+
+- **Streamlit** - For the clean and responsive web interface.
+- **Langchain** - To create seamless workflows between the input and AI models.
+- **Google Generative AI** - To generate movie recommendations based on movie titles, genres, or keywords.
+- **Dotenv** - To securely manage API keys for the model configuration.
+
+---
+
+## 3. How It Works ⚙️
+
+Let’s break down how MARS works behind the scenes.
+
+### 3.1 Setting Up the Local Environment 🖥️
+
+Before MARS can start making any recommendations, the environment must be set up to handle API calls to Google’s AI services. This is done using `dotenv`, which loads environment variables securely.
+
+```python
+import os
+from dotenv import load_dotenv
+load_dotenv()  # Activate the local environment
+```
+
+With this, we load the necessary API key for the Google Generative AI model:
+
+```python
+genai.configure(api_key=os.getenv('GOOGLE-API-KEY'))
+```
+
+### 3.2 Designing the Webpage 🎨
+
+To make the user experience easy and fun, MARS uses **Streamlit** to provide a clean, user-friendly interface. Users can enter a movie title, genre, or keyword of their choice. 
+
+```python
+st.title("MARS (Automated Movie Recommender System) ✅")
+movie_input = st.text_input('Enter the Movie title, genre or keyword 🎞️')
+```
+
+The input from the user is captured and used to generate tailored movie recommendations based on the similarity of film synopses.
+
+### 3.3 Building the AI Model 🧠
+
+At the core of MARS is **Langchain**, which helps structure our input and output into a flow that interacts with Google’s powerful **Generative AI** model. The prompt that drives the recommendations is wrapped in a `PromptTemplate`, designed to use the user’s input dynamically.
+
+```python
+demo_template = '''Based on {movie_input}, give me the best 5 movie recommendations by their similarity of the synopsis of the film'''
+template = PromptTemplate(input_variables=[movie_input], template=demo_template)
+```
+
+We then initialize Google’s **ChatGoogleGenerativeAI** model:
+
+```python
+llm = ChatGoogleGenerativeAI(model='gemini-pro', api_key=os.getenv('GOOGLE-API-KEY'))
+```
+
+### 3.4 Making Movie Recommendations 🍿
+
+Once the user enters their movie-related query, MARS runs the model and returns five movie recommendations based on the input.
+
+```python
+llm_chain = LLMChain(prompt=template, llm=llm)
+recommendations = llm.predict(text=prompt)
+st.write(f'Recommendations for you:\n {recommendations}')
+```
+
+---
+
+## 4. Running the Application 🏃‍♂️
+
+### Pre-requisites:
+- Python 3.7+
+- A valid Google API key (configured in your `.env` file)
+
+### Steps:
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-repo/MARS.git
+   ```
+2. Navigate into the project folder:
+   ```bash
+   cd MARS
+   ```
+3. Install the required dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+4. Run the application:
+   ```bash
+   streamlit run app.py
+   ```
+
+Now, open the URL generated by Streamlit in your browser and start getting movie recommendations!
+
+---
+
+## 5. Contributing 🤝
+
+Want to make MARS even better? We welcome contributions! Feel free to submit pull requests, suggest features, or report bugs.
+
+To contribute:
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature/new-feature`).
+3. Commit your changes (`git commit -m 'Add new feature'`).
+4. Push to the branch (`git push origin feature/new-feature`).
+5. Open a Pull Request.
+
+---
+
+## 6. Future Enhancements 🚀
+
+While MARS is already a cool tool for movie recommendations, there's always room for growth! Here are a few ideas for future development:
+- **Add more filters**: Incorporate filters based on user preferences like runtime, language, etc.
+- **User ratings**: Allow users to rate the recommendations and improve results.
+- **TV shows**: Expand beyond movies to include TV show recommendations.
+
+---
+
+And that’s a wrap! 🎬 With MARS, movie discovery becomes easier, faster, and more enjoyable. Happy watching!
